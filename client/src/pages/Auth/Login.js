@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "../../styles/AuthStyles.css";
 import axios from "axios";
+import { useAuth } from "../../context/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -23,6 +25,12 @@ const Login = () => {
         toast.success(response.data && response.data.message, {
           duration: 6000,
         });
+        setAuth({
+          ...auth,
+          user: response.data.user,
+          token: response.data.token,
+        });
+        localStorage.setItem("auth", JSON.stringify(response.data));
         navigate("/");
       } else {
         toast.error(response.data.message);
