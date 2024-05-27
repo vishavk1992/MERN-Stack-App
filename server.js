@@ -1,9 +1,11 @@
 import express from "express";
 import colors from "colors";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 import morgan from "morgan";
 import connectDb from "./config/db.js";
-import authRoutes from './routes/authRoutes.js'
+import authRoutes from "./routes/authRoutes.js";
+import cors from "cors";
+
 //configure env
 dotenv.config();
 
@@ -11,26 +13,25 @@ dotenv.config();
 connectDb();
 
 //rest object
-const app = express()
+const app = express();
 
 //middleware
-app.use(express.json())
-app.use(morgan('dev'))
+app.use(express.json());
+app.use(morgan("dev"));
+app.use(cors());
 
 //routes
-app.use('/api/v1/auth', authRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 //rest api
-app.get('/',(req,resp)=>{
-    resp.send
-        ("<h1>Welcome to E-commerce app </h1>")
-    
-})
+app.get("/", (req, resp) => {
+  resp.send("<h1>Welcome to E-commerce app </h1>");
+});
 
-//port 
+//port
 const PORT = process.env.PORT || 8000;
 
 //run listen
-app.listen(PORT,()=>{
-    console.log(`server running on ${PORT}`.bgCyan.white);
-})
+app.listen(PORT, () => {
+  console.log(`server running on ${PORT}`.bgCyan.white);
+});
