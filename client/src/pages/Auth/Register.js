@@ -12,6 +12,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [question, setQuestion] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -25,6 +26,7 @@ const Register = () => {
         password,
         phone,
         address,
+        question,
       });
       if (response && response.data.success) {
         toast.success(response.data && response.data.message);
@@ -98,6 +100,18 @@ const Register = () => {
               required
             />
           </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              className="form-control"
+              id="exampleInputEmail1"
+              placeholder="What is your favorite place"
+              required
+            />
+          </div>
+
           <button type="submit" className="btn btn-primary">
             Submit
           </button>

@@ -1,38 +1,30 @@
 import React from "react";
-import { useState } from "react";
 import Layout from "../../components/Layout/Layout";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "../../styles/AuthStyles.css";
 import axios from "axios";
-import { useAuth } from "../../context/auth";
 
-const Login = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [auth, setAuth] = useAuth();
+  const [newpassword, setNewPassword] = useState("");
+  const [question, setQuestion] = useState();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // toast.success("login Successfully");
     try {
-      const response = await axios.post("/api/v1/auth/login", {
+      const response = await axios.post("/api/v1/auth/forgot-password", {
         email,
-        password,
+        newpassword,
+        question,
       });
       if (response && response.data.success) {
-        toast.success(response.data && response.data.message, {
-          duration: 6000,
-        });
-        setAuth({
-          ...auth,
-          user: response.data.user,
-          token: response.data.token,
-        });
-        localStorage.setItem("auth", JSON.stringify(response.data));
-        navigate(location.state || "/"); //location.state redirect to same page which user want to like dashboard
+        toast.success(response.data && response.data.message);
+
+        navigate("/login"); //location.state redirect to same page which user want to like dashboard
       } else {
         toast.error(response.data.message);
       }
@@ -41,12 +33,11 @@ const Login = () => {
       toast.error("Something went wrong");
     }
   };
-
   return (
-    <Layout title={"Login - Ecommerce App"}>
+    <Layout title={"ForgotPassword - Ecommerce App"}>
       <div className="form-container">
         <form onSubmit={handleSubmit}>
-          <h1 className="title">Login Now</h1>
+          <h1 className="title">Reset Password</h1>
 
           <div className="mb-3">
             <input
@@ -62,24 +53,24 @@ const Login = () => {
           <div className="mb-3">
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={newpassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               className="form-control"
               id="exampleInputPassword1"
-              placeholder="Password"
+              placeholder="New Password"
               required
             />
           </div>
           <div className="mb-3">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={() => {
-                navigate("/forgot-password");
-              }}
-            >
-              Forgot Password
-            </button>
+            <input
+              type="text"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              className="form-control"
+              id="exampleInputPassword2"
+              placeholder="Enter your favorite place?"
+              required
+            />
           </div>
 
           <button type="submit" className="btn btn-primary">
@@ -91,4 +82,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;
