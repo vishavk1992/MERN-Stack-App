@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Layout from "../../components/Layout/Layout";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import "../../styles/AuthStyles.css";
 import axios from "axios";
@@ -12,6 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +32,7 @@ const Login = () => {
           token: response.data.token,
         });
         localStorage.setItem("auth", JSON.stringify(response.data));
-        navigate("/");
+        navigate(location.state || "/"); //location.state redirect to same page which user want to like dashboard
       } else {
         toast.error(response.data.message);
       }
