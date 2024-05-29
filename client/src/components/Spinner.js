@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-const Spinner = () => {
+const Spinner = ({ path = "login" }) => {
   const [count, setCount] = useState(5);
   const navigate = useNavigate();
   const location = useLocation();
@@ -12,11 +12,12 @@ const Spinner = () => {
       setCount((preValue) => --preValue);
     }, 1000);
     count === 0 &&
-      navigate("/login", {
+      navigate(`/${path}`, {
+        //by removing login and write path to make it dynamic navigation
         state: location.pathname,
       }); //if count is zero then navigate to login page
     return () => clearInterval(interval);
-  }, [count, navigate, location]);
+  }, [count, navigate, location, path]);
   return (
     <>
       <div
