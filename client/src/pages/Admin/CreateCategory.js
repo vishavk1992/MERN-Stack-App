@@ -35,7 +35,7 @@ const CreateCategory = () => {
     try {
       const { data } = await axios.get("/api/v1/category/all-category");
       if (data.success) {
-        setCategories(data.getCategory);
+        setCategories(data.getCategory); //getCategory write in getCategoryController in node js
       }
     } catch (error) {
       console.log(error);
