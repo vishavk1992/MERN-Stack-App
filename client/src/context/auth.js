@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, createContext } from "react";
-// import axios from "axios";
+import axios from "axios";
 
 const AuthContext = createContext(); //store authcontext varible in this
 
@@ -9,8 +9,8 @@ const Authprovider = ({ children }) => {
     token: "", // initially string
   });
 
-  //default axios  //if we do not wanna set header in Private.js then we can write here as default
-  // axios.defaults.headers.common["Authorization"] = auth?.token;
+  //default header //if we do not wanna set header in every pages then we can write here as default
+  axios.defaults.headers.common["Authorization"] = auth?.token;
 
   useEffect(() => {
     const data = localStorage.getItem("auth");
