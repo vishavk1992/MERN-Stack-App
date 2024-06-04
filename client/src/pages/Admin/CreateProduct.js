@@ -4,7 +4,7 @@ import Layout from "../../components/Layout/Layout";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Select } from "antd";
-
+import { useNavigate } from "react-router-dom";
 const { Option } = Select;
 
 const CreateProduct = () => {
@@ -16,6 +16,7 @@ const CreateProduct = () => {
   const [shipping, setShipping] = useState("");
   const [category, setCategory] = useState("");
   const [photo, setPhoto] = useState("");
+  const navigate = useNavigate();
 
   //get all category
   const getAllCategory = async () => {
@@ -34,6 +35,33 @@ const CreateProduct = () => {
     getAllCategory();
   }, []);
 
+  //create product function
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    try {
+      const productData = new FormData();
+      productData.append("name", name);
+      productData.append("description", description);
+      productData.append("price", price);
+      productData.append("quantity", quantity);
+      productData.append("photo", photo);
+      productData.append("category", category);
+
+      const { data } = await axios.post(
+        "/api/v1/product/create-product",
+        productData
+      );
+      if (data?.success) {
+        toast.success("Product created successfully");
+        navigate("/dashboard/admin/products");
+      } else {
+        toast.error(data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("something went wrong");
+    }
+  };
   return (
     <Layout title={"Dashboard - Create Product"}>
       <div className="conatiner-fluid m-3 p-3">
@@ -55,7 +83,7 @@ const CreateProduct = () => {
                 }}
               >
                 {categories?.map((c) => (
-                  <Option key={c._id} value={c.name}>
+                  <Option key={c._id} value={c._id}>
                     {c.name}
                   </Option>
                 ))}
@@ -83,6 +111,59 @@ const CreateProduct = () => {
                     />
                   </div>
                 )}
+              </div>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  value={name}
+                  placeholder="write a name"
+                  className="form-control"
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <textarea
+                  type="text"
+                  value={description}
+                  placeholder="write a description"
+                  className="form-control"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  value={price}
+                  placeholder="write a price"
+                  className="form-control"
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  value={quantity}
+                  placeholder="write a Quantity"
+                  className="form-control"
+                  onChange={(e) => setQunatity(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <Select
+                  bordered={false}
+                  placeholder="Select  shipping"
+                  size="large"
+                  showSearch
+                  onChange={(value) => setShipping(value)}
+                >
+                  <Option value="0">No</Option>
+                  <Option value="1">Yes</Option>
+                </Select>
+              </div>
+              <div className="mb-3">
+                <button className="btn btn-primary" onClick={handleCreate}>
+                  CREATE PRODUCT
+                </button>
               </div>
             </div>
           </div>
