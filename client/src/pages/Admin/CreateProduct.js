@@ -15,6 +15,7 @@ const CreateProduct = () => {
   const [quantity, setQunatity] = useState("");
   const [shipping, setShipping] = useState("");
   const [category, setCategory] = useState("");
+  const [photo, setPhoto] = useState("");
 
   //get all category
   const getAllCategory = async () => {
@@ -42,7 +43,7 @@ const CreateProduct = () => {
           </div>
           <div className="col-md-9">
             <h1>Create Product</h1>
-            <div className="m-1">
+            <div className="m-1 w-75">
               <Select
                 bordered={false}
                 placeholder="Select a category"
@@ -59,6 +60,30 @@ const CreateProduct = () => {
                   </Option>
                 ))}
               </Select>
+              <div className="mb-3">
+                <label className="btn btn-outline-secondary col-md-12">
+                  {photo ? photo.name : "Upload Photo"}
+                  <input
+                    type="file"
+                    name="photo"
+                    accept="image/*"
+                    onChange={(e) => setPhoto(e.target.files[0])}
+                    hidden
+                  />
+                </label>
+              </div>
+              <div className="mb-2">
+                {photo && (
+                  <div className="text-center">
+                    <img
+                      src={URL.createObjectURL(photo)}
+                      alt="product_photo"
+                      height={"200px"}
+                      className="img img-responsive"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
