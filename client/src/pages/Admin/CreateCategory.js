@@ -38,8 +38,8 @@ const CreateCategory = () => {
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/all-category");
-      if (data.success) {
-        setCategories(data.getCategory); //getCategory write in getCategoryController in node js
+      if (data?.success) {
+        setCategories(data?.getCategory); //getCategory write in getCategoryController in node js
       }
     } catch (error) {
       console.log(error);
