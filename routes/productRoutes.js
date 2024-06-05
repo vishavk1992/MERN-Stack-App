@@ -32,7 +32,7 @@ router.get("/single-product/:slug", getSingleProductController);
 router.get("/product-photo/:pid", productPhotoController);
 
 //delete product
-router.delete("/delete-product", productDeleteController);
+router.delete("/delete-product/:pid", productDeleteController);
 
 //update product
 router.put(
