@@ -92,6 +92,14 @@ const HomePage = () => {
               ))}
             </Radio.Group>
           </div>
+          <div className="d-flex flex-column mt-3">
+            <button
+              className="btn btn-danger"
+              onClick={() => window.location.reload()}
+            >
+              RESET FILTERS
+            </button>
+          </div>
         </div>
         <div className="col-md-9">
           {/* {JSON.stringify(radio, null, 4)} */}
