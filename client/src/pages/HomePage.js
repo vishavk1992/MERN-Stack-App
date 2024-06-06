@@ -50,6 +50,7 @@ const HomePage = () => {
     }
     setChecked(all);
   };
+
   return (
     <Layout title={"All Products - Best offers"}>
       <div className=" container-fluid row mt-3">
