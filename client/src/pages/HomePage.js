@@ -10,20 +10,6 @@ const HomePage = () => {
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
 
-  //getproducts
-  const getAllProducts = async () => {
-    try {
-      const { data } = await axios.get("/api/v1/product/get-product");
-      setProduct(data.products);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getAllProducts();
-  }, []);
-
   //get all category
   const getAllCategory = async () => {
     try {
@@ -40,6 +26,20 @@ const HomePage = () => {
     getAllCategory();
   }, []);
 
+  //getproducts
+  const getAllProducts = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/product/get-product");
+      setProduct(data.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!checked.length || !radio.length) getAllProducts();
+  }, [checked.length, radio.length]);
+
   //filter by category
   const handleFilter = (value, id) => {
     let all = [...checked];
@@ -51,6 +51,21 @@ const HomePage = () => {
     setChecked(all);
   };
 
+  //get filtered product
+  const filterProduct = async () => {
+    try {
+      const { data } = await axios.post("/api/v1/product/product-filters", {
+        checked,
+        radio,
+      });
+      setProduct(data?.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (checked.length || radio.length) filterProduct();
+  }, [checked, radio]);
   return (
     <Layout title={"All Products - Best offers"}>
       <div className=" container-fluid row mt-3">
@@ -92,6 +107,7 @@ const HomePage = () => {
                 <div className="card-body">
                   <h5 className="card-title">{p.name}</h5>
                   <p className="card-text">{p.description}</p>
+                  <p className="card-text">${p.price}</p>
                   <button className="btn btn-primary ms-1">Mode deatils</button>
                   <button className="btn btn-secondary ms-1">
                     Add to Cart
