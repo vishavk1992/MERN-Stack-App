@@ -9,6 +9,9 @@ const HomePage = () => {
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   //get all category
   const getAllCategory = async () => {
@@ -24,6 +27,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getAllCategory();
+    getTotal();
   }, []);
 
   //getproducts
@@ -66,6 +70,16 @@ const HomePage = () => {
   useEffect(() => {
     if (checked.length || radio.length) filterProduct();
   }, [checked, radio]);
+
+  //get total count
+  const getTotal = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/product/product-count");
+      setTotal(data?.total);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Layout title={"All Products - Best offers"}>
       <div className=" container-fluid row mt-3">
@@ -125,6 +139,19 @@ const HomePage = () => {
                 </div>
               </div>
             ))}
+          </div>
+          <div className="text-center m-2 p-3">
+            {product && product.length < total && (
+              <button
+                className="btn btn-warning"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPage(page + 1);
+                }}
+              >
+                {loading ? "loading..." : "Load More"}
+              </button>
+            )}
           </div>
         </div>
       </div>

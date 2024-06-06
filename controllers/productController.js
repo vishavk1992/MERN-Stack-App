@@ -232,7 +232,7 @@ export const productCountController = async (req, resp) => {
 //productListController
 export const productListController = async (req, resp) => {
   try {
-    const perPage = 6;
+    const perPage = 1;
     const page = req.params.page ? req.params.page : 1;
     const products = await productModel
       .find({})
