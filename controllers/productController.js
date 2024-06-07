@@ -253,3 +253,26 @@ export const productListController = async (req, resp) => {
     });
   }
 };
+
+// /searchProductController
+export const searchProductController = async (req, resp) => {
+  try {
+    const { keyword } = req.params;
+    const results = await productModel
+      .find({
+        $or: [
+          { name: { $regex: keyword, $options: "i" } },
+          { description: { $regex: keyword, $options: "i" } },
+        ],
+      })
+      .select("-photo");
+    resp.json(results);
+  } catch (error) {
+    console.log(error);
+    resp.status(500).send({
+      success: false,
+      error,
+      message: "Error in serach product API",
+    });
+  }
+};

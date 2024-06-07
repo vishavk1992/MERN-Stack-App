@@ -5,15 +5,18 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Authprovider } from "./context/auth";
-import 'antd/dist/reset.css';
+import { Searchprovider } from "./context/search";
+import "antd/dist/reset.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-    <Authprovider>
-      <App />
-    </Authprovider>
-  </BrowserRouter>
+  <Authprovider>
+    <Searchprovider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Searchprovider>
+  </Authprovider>
 );
 
 // If you want to start measuring performance in your app, pass a function
