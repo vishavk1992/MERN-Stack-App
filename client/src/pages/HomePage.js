@@ -82,6 +82,25 @@ const HomePage = () => {
       console.log(error);
     }
   };
+
+  //load more function
+  const loadMore = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
+      setLoading(false);
+      setProduct([...product, ...data.products]);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (page === 1) return;
+    loadMore();
+  }, [page]);
+
   return (
     <Layout title={"All Products - Best offers"}>
       <div className=" container-fluid row mt-3">
