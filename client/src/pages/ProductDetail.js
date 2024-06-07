@@ -7,6 +7,16 @@ const ProductDetail = () => {
   const params = useParams();
   const [product, setProduct] = useState([]);
   //get single Product
+
+  //   const getProduct = async () => {
+  //     try {
+  //       const response = await axios.get(`/api/v1/product/single-product/${params.slug}`);
+  //       setProduct(response.data?.singleProduct);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };    //we can also write like this without destructuring {data}
+
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
