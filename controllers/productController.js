@@ -276,3 +276,30 @@ export const searchProductController = async (req, resp) => {
     });
   }
 };
+
+//relatedProductController
+export const relatedProductController = async (req, resp) => {
+  try {
+    const { pid, cid } = req.params;
+    console.log("PID:", pid, "CID:", cid); // Add this line to log parameters
+    const products = await productModel
+      .find({
+        category: cid,
+        _id: { $ne: pid },
+      })
+      .select("-photo")
+      .limit(3)
+      .populate("category");
+    resp.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    resp.status(500).send({
+      success: false,
+      error,
+      message: "Error in related product API",
+    });
+  }
+};
