@@ -9,8 +9,24 @@ const CartPage = () => {
   const [cart, setCart] = useCart();
   const navigate = useNavigate();
 
+  //total price
+  const totalPrice = () => {
+    try {
+      let total = 0; //initial value zero
+      cart?.map((item) => {
+        total = total + item.price;
+      });
+      return total.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   //delete item from cart
-  const removeCartItem = async (pid) => {
+  const removeCartItem = (pid) => {
     try {
       let myCart = [...cart];
       let index = myCart.findIndex((item) => item._id === pid);
@@ -30,7 +46,7 @@ const CartPage = () => {
               {`Hello ${auth?.token && auth?.user?.name}`}
             </h1>
             <h4 className="text-center">
-              {cart?.length > 1
+              {cart?.length > 0
                 ? `You Have ${cart.length} items in your cart ${
                     auth?.token ? "" : "Please login to checkout"
                   }`
@@ -65,7 +81,12 @@ const CartPage = () => {
               </div>
             ))}
           </div>
-          <div className="col-md-4">Checkout | Payment</div>
+          <div className="col-md-4 text-center">
+            <h2> Cart Summary</h2>
+            <p>Total | Checkout | Payment</p>
+            <hr />
+            <h4>Total :{totalPrice()}</h4>
+          </div>
         </div>
       </div>
     </Layout>
