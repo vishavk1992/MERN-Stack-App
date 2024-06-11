@@ -168,6 +168,10 @@ const HomePage = () => {
                     className="btn btn-secondary ms-1"
                     onClick={() => {
                       setCart([...cart, p]);
+                      localStorage.setItem(
+                        "cart",
+                        JSON.stringify([...cart, p]) //used to store in local storage
+                      );
                       toast.success("Item added to cart");
                     }}
                   >
