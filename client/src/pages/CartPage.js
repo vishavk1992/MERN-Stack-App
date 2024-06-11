@@ -16,6 +16,7 @@ const CartPage = () => {
       let index = myCart.findIndex((item) => item._id === pid);
       myCart.splice(index, 1);
       setCart(myCart);
+      localStorage.setItem("cart", JSON.stringify(myCart)); //remove product from local storage
     } catch (error) {
       console.log(error);
     }
