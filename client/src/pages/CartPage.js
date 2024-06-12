@@ -108,7 +108,11 @@ const CartPage = () => {
                 ) : (
                   <button
                     className="btn btn-outline-warning"
-                    onClick={() => navigate("/login")}
+                    onClick={() =>
+                      navigate("/login", {
+                        state: "/cart", //redirect to cart page after login
+                      })
+                    }
                   >
                     Please Login To Checkout
                   </button>
