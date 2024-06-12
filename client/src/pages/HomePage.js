@@ -109,9 +109,9 @@ const HomePage = () => {
   return (
     <Layout title={"All Products - Best offers"}>
       <div className=" container-fluid row mt-3">
-        <div className="col-md-2">
-          <h4 className="text-center">Filter By Category</h4>
-          <div className="d-flex flex-column">
+        <div className="col-md-2 me-4">
+          <h4 className="text-center mt-4">Filter By Category</h4>
+          <div className="d-flex flex-column ">
             {categories?.map((c) => (
               <Checkbox
                 key={c._id}
@@ -144,7 +144,7 @@ const HomePage = () => {
         <div className="col-md-9">
           {/* {JSON.stringify(radio, null, 4)} */}
           <h1 className="text-center">All Products</h1>
-          <div className="d-flex flex-wrap ">
+          <div className="d-flex flex-wrap justify-content-center">
             {product?.map((p) => (
               <div className="card m-2" style={{ width: "18rem" }}>
                 <img
@@ -159,13 +159,13 @@ const HomePage = () => {
                   </p>
                   <p className="card-text">${p.price}</p>
                   <button
-                    className="btn btn-primary ms-1"
+                    className="btn btn-primary ms-1 "
                     onClick={() => navigate(`/product/${p.slug}`)}
                   >
                     Mode deatils
                   </button>
                   <button
-                    className="btn btn-secondary ms-1"
+                    className="btn btn-secondary ms-1 "
                     onClick={() => {
                       setCart([...cart, p]);
                       localStorage.setItem(
