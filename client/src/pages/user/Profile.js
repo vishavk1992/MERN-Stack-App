@@ -31,17 +31,22 @@ const Profile = () => {
     // console.log(name, email, password, phone, address);
     // toast.success("Profile submitted Successfully");
     try {
-      const response = await axios.post("/api/v1/auth/register", {
+      const { data } = await axios.put("/api/v1/auth/profile", {
         name,
         email,
         password,
         phone,
         address,
       });
-      if (response && response.data.success) {
-        toast.success(response.data && response.data.message);
+      if (data?.error) {
+        toast.error(data?.error);
       } else {
-        toast.error(response.data.message);
+        setAuth({ ...auth, user: data?.updatedUser }); //updatedUser from authCobtroller
+        let ls = localStorage.getItem("auth");
+        ls = JSON.parse(ls);
+        ls.user = data.updatedUser;
+        localStorage.setItem("auth", JSON.stringify(ls));
+        toast.success("Profile updated successfully");
       }
     } catch (error) {
       console.log(error);
@@ -79,7 +84,6 @@ const Profile = () => {
                     className="form-control"
                     id="exampleInputEmail1"
                     placeholder="Enter your email"
-                    required
                     disabled //now user cant update email
                   />
                 </div>
@@ -91,7 +95,6 @@ const Profile = () => {
                     className="form-control"
                     id="exampleInputPassword1"
                     placeholder="Password"
-                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -102,7 +105,6 @@ const Profile = () => {
                     className="form-control"
                     id="exampleInputEmail1"
                     placeholder="Phone"
-                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -113,7 +115,6 @@ const Profile = () => {
                     className="form-control"
                     id="exampleInputEmail1"
                     placeholder="Address"
-                    required
                   />
                 </div>
 
